@@ -1,0 +1,333 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+      http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <changeSet id="20240513-1836-add-table-role" author="aibles">
+        <createTable tableName="role">
+            <column name="id" type="VARCHAR(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_at" type="BIGINT"/>
+            <column name="last_updated_by" type="VARCHAR(255)"/>
+            <column name="last_updated_at" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="20240513-1839-add-table-user" author="aibles">
+        <createTable tableName="user">
+            <column name="id" type="VARCHAR(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="phone" type="VARCHAR(255)"/>
+            <column name="date_of_birth" type="VARCHAR(255)"/>
+            <column name="gender" type="VARCHAR(255)"/>
+            <column name="address" type="VARCHAR(255)"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_at" type="VARCHAR(255)"/>
+            <column name="last_updated_by" type="VARCHAR(255)"/>
+            <column name="last_updated_at" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="20240513-1830-add-table-account" author="aibles">
+        <createTable tableName="account">
+            <column name="id" type="VARCHAR(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="is_activated" type="BOOLEAN"/>
+            <column name="is_lock_permanent" type="BOOLEAN"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_at" type="BIGINT"/>
+            <column name="last_updated_by" type="VARCHAR(255)"/>
+            <column name="last_updated_at" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="20240513-1840-add-table-account_user" author="aibles">
+        <createTable tableName="account_user">
+            <column name="id" type="VARCHAR(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="account_user" baseColumnNames="account_id"
+                                 constraintName="FK_account_user_account"
+                                 referencedTableName="account" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="account_user" baseColumnNames="user_id"
+                                 constraintName="FK_account_user_user"
+                                 referencedTableName="user" referencedColumnNames="id"/>
+    </changeSet>
+
+
+    <changeSet id="20240513-1845-add-table-account_role" author="aibles">
+        <createTable tableName="account_role">
+            <column name="id" type="VARCHAR(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="account_role" baseColumnNames="account_id"
+                                 constraintName="FK_account_role_account"
+                                 referencedTableName="account" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="account_role" baseColumnNames="role_id"
+                                 constraintName="FK_account_role_role"
+                                 referencedTableName="role" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="20240624-1321-add-table-event" author="aibles">
+        <createTable tableName="event">
+            <column name="id" type="VARCHAR(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="description" type="TEXT"/>
+            <column name="location" type="VARCHAR(255)"/>
+            <column name="start_time" type="TIMESTAMP"/>
+            <column name="end_time" type="TIMESTAMP"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="last_updated_by" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20240624-1302-add-table-event-participant" author="aibles">
+        <createTable tableName="event_participant">
+            <column name="id" type="VARCHAR(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="event_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="event_participant" baseColumnNames="event_id"
+                                 constraintName="FK_event_participant_event"
+                                 referencedTableName="event" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="event_participant" baseColumnNames="user_id"
+                                 constraintName="FK_event_participant_user"
+                                 referencedTableName="user" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2024-06-21" author="Leonard">
+        <createTable tableName="menu">
+            <column name="id" type="varchar(255)">
+                <constraints primaryKey="true" primaryKeyName="pk_menu_id"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="created_at" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_updated_at" type="int8"/>
+            <column name="last_updated_by" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="category">
+            <column name="id" type="varchar(255)">
+                <constraints primaryKey="true" primaryKeyName="pk_category_id"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_updated_at" type="int8"/>
+            <column name="last_updated_by" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="item">
+            <column name="id" type="varchar(255)">
+                <constraints primaryKey="true" primaryKeyName="pk_item_id"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="price" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_updated_at" type="int8"/>
+            <column name="last_updated_by" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="menu_item">
+            <column name="menu_id" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_id" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+                tableName="menu_item"
+                columnNames="item_id, menu_id"
+                constraintName="pk_menu_item_id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="menu_item" baseColumnNames="item_id"
+                constraintName="fk_menu_item_relate_item_by_item_id"
+                referencedTableName="item" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="menu_item" baseColumnNames="menu_id"
+                constraintName="fk_menu_item_relate_category_by_menu_id"
+                referencedTableName="menu" referencedColumnNames="id"/>
+
+        <createTable tableName="item_category">
+            <column name="item_id" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+                tableName="item_category"
+                columnNames="item_id, category_id"
+                constraintName="pk_item_category_id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="item_category" baseColumnNames="item_id"
+                constraintName="fk_item_category_relate_item_by_item_id"
+                referencedTableName="item" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="item_category" baseColumnNames="category_id"
+                constraintName="fk_item_category_relate_category_by_category_id"
+                referencedTableName="category" referencedColumnNames="id"/>
+
+        <createTable tableName="ingredient">
+            <column name="id" type="varchar(255)">
+                <constraints primaryKey="true" primaryKeyName="pk_ingredient_id"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_updated_at" type="int8"/>
+            <column name="last_updated_by" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="item_ingredient">
+            <column name="item_id" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ingredient_id" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_updated_at" type="int8"/>
+            <column name="last_updated_by" type="varchar(255)"/>
+        </createTable>
+
+        <addPrimaryKey
+                tableName="item_ingredient"
+                columnNames="item_id, ingredient_id"
+                constraintName="pk_item_ingredient_id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="item_ingredient" baseColumnNames="item_id"
+                constraintName="fk_item_ingredient_relate_item_by_item_id"
+                referencedTableName="item" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="item_ingredient" baseColumnNames="ingredient_id"
+                constraintName="fk_item_ingredient_relate_category_by_ingredient_id"
+                referencedTableName="ingredient" referencedColumnNames="id"/>
+
+        <createTable tableName="item_special">
+            <column name="id" type="varchar(255)">
+                <constraints primaryKey="true" primaryKeyName="pk_item_special_id"/>
+            </column>
+            <column name="item_id" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_updated_at" type="int8"/>
+            <column name="last_updated_by" type="varchar(255)"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="item_special" baseColumnNames="item_id"
+                constraintName="fk_item_special_relate_item_by_item_id"
+                referencedTableName="item" referencedColumnNames="id"/>
+    </changeSet>
+
+
+
+
+
+
+
+
+</databaseChangeLog>
